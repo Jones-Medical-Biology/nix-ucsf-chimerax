@@ -6,7 +6,8 @@ let
   version = "rc";
 
   src = fetchurl {
-    url = "https://www.cgl.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?ident=OHeQer2fSLp7%2BfxtoHxc5%2Flkr0FSQ9j%2B3ht23gv5ifI%3D&file=current%2Fubuntu-22.04%2Fchimerax-rc.deb&choice=Notified";
+    # url = "https://www.cgl.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?ident=OHeQer2fSLp7%2BfxtoHxc5%2Flkr0FSQ9j%2B3ht23gv5ifI%3D&file=current%2Fubuntu-22.04%2Fchimerax-rc.deb&choice=Notified";
+    url = "https://www.rbvi.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?ident=OHeQer2WQqBn%2F%2BpptntA5OBgulBVQtz41xt21QPlnvQrqerNdiU%3D&file=1.4%2Fubuntu-22.04%2Fucsf-chimerax_1.4ubuntu22.04_amd64.deb&choice=Notified";
     sha256 = "4EDZHiXJGv3KMQCF9EyC73Zwl28fTS29y6IEroD+c4k=";
   };
   
