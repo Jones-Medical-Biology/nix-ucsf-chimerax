@@ -67,7 +67,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     glibc
     #gcc-unwrapped
-    pkgs.linuxKernel.packages.linux_5_19.nvidia_x11
+    pkgs.linuxPackages.nvidia_x11
     pkgs.libffi
     pkgs.qt6.wrapQtAppsHook
     pkgs.glib
@@ -78,7 +78,7 @@ stdenv.mkDerivation rec {
     pkgs.libGLU
     pkgs.alsa-lib
     pkgs.gtk3
-    pkgs.webkitgtk
+    pkgs.webkitgtk_4_1
     pkgs.pkg-config
     # X11 / xcb libraries needed by Qt's bundled "xcb" platform plugin. These
     # were previously commented out, which is what broke the GUI ("keymaps?").
@@ -112,13 +112,13 @@ stdenv.mkDerivation rec {
     pkgs.qt6.qt3d
     pkgs.qt6.qtquick3d
     pkgs.qt6.qtwebview
-    pkgs.opencl-info
+    pkgs.clinfo
     pkgs.ncurses
     pkgs.libtirpc
     libnsl
     pkgs.opencl-clang
     pkgs.opencl-headers
-    pkgs.rocm-opencl-runtime
+    pkgs.rocmPackages.clr
     pkgs.opencl-clhpp
     pkgs.conda
     pkgs.vial

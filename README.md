@@ -33,8 +33,9 @@ sets `config.allowUnfree = true` for you.
 
 ## Status
 
+- Pinned to **nixos-24.11** so glibc/Qt match the Ubuntu 24.04 `.deb`.
 - Builds via `dpkg -x` + `autoPatchelfHook`; the flake evaluates and the
-  derivation instantiates cleanly.
+  derivation instantiates cleanly against that pin.
 - The GUI requires Qt's `xcb` platform plugin. The X11/xcb libraries it needs
   are now in `buildInputs`, and `QT_XKB_CONFIG_ROOT` is set at wrap time to fix
   the "could not create XKB context" / keymap failure. Verify on a machine with
