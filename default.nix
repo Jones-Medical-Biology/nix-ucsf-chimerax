@@ -5,19 +5,31 @@ let
   # source of the latter disappears much faster.
   version = "rc";
 
-  # ChimeraX is distributed as a registration-gated .deb, so it cannot be
-  # fetched reproducibly with a stable hash. Download the Ubuntu 22.04 build
-  # from https://www.cgl.ucsf.edu/chimerax/download.html, rename it to
-  # "chimerax-rc.deb", drop it next to this file, and `git add` it (flakes only
-  # see git-tracked files). Then `nix build` will pick it up.
-  src =
-    if builtins.pathExists ./chimerax-rc.deb then ./chimerax-rc.deb
-    else throw ''
-      chimerax-rc.deb not found next to default.nix.
-      Download the Ubuntu 22.04 ChimeraX .deb from
-      https://www.cgl.ucsf.edu/chimerax/download.html, rename it to
-      chimerax-rc.deb, place it in this directory, and `git add` it.
+  # ChimeraX is a registration-gated ~418 MB .deb, so it is neither fetchable
+  # with a stable hash nor small enough to commit to git (GitHub rejects files
+  # >100 MB). Instead we reference it by hash with requireFile: download the
+  # Ubuntu 22.04 build once, add it to your Nix store, and it never touches git.
+  #
+  #   1. Download from https://www.cgl.ucsf.edu/chimerax/download.html
+  #   2. Get its hash:   nix-prefetch-url file://$PWD/chimerax-rc.deb
+  #   3. Put that hash in the sha256 below
+  #   4. Add it to the store:   nix-store --add-fixed sha256 chimerax-rc.deb
+  #
+  # (requireFile prints these exact steps if the file is not yet in the store.)
+  src = pkgs.requireFile {
+    name = "chimerax-rc.deb";
+    # Replace with the hash of your downloaded .deb (see step 2 above).
+    sha256 = "0000000000000000000000000000000000000000000000000000";
+    url = "https://www.cgl.ucsf.edu/chimerax/download.html";
+    message = ''
+      ChimeraX is registration-gated and cannot be downloaded automatically.
+      Download the Ubuntu 22.04 .deb from
+        https://www.cgl.ucsf.edu/chimerax/download.html
+      rename it to chimerax-rc.deb, then run:
+        nix-prefetch-url file://$PWD/chimerax-rc.deb   # put this hash in default.nix
+        nix-store --add-fixed sha256 chimerax-rc.deb
     '';
+  };
   libnsl = stdenv.mkDerivation rec {
     pname = "libnsl";
     version = "1.3.0";

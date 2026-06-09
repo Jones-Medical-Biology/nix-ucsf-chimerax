@@ -4,15 +4,25 @@ A Nix flake to build and run [UCSF ChimeraX](https://github.com/RBVI/ChimeraX).
 
 ## Providing the source
 
-ChimeraX is distributed as a registration-gated `.deb`, so it cannot be
-fetched reproducibly with a stable hash. Before building:
+ChimeraX is a registration-gated ~418 MB `.deb`. It is **not** committed to
+this repo — it's too big for GitHub (100 MB hard limit) and shouldn't be
+redistributed anyway. Instead it's referenced by hash via `requireFile`, so you
+add it to your local Nix store once:
 
 1. Download the **Ubuntu 22.04** build from
-   <https://www.cgl.ucsf.edu/chimerax/download.html>.
-2. Rename it to `chimerax-rc.deb` and place it next to `default.nix`.
-3. `git add chimerax-rc.deb` — flakes only see git-tracked files.
+   <https://www.cgl.ucsf.edu/chimerax/download.html> and rename it to
+   `chimerax-rc.deb`.
+2. Compute its hash and paste it into the `sha256` field in `default.nix`:
+   ```sh
+   nix-prefetch-url file://$PWD/chimerax-rc.deb
+   ```
+3. Add it to the Nix store:
+   ```sh
+   nix-store --add-fixed sha256 chimerax-rc.deb
+   ```
 
-If the file is missing the build aborts early with a message explaining this.
+If the file isn't in the store yet, the build aborts early and prints these
+exact steps.
 
 ## Building / running
 
