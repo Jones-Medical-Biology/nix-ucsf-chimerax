@@ -18,8 +18,7 @@ let
   # (requireFile prints these exact steps if the file is not yet in the store.)
   src = pkgs.requireFile {
     name = "chimerax-rc.deb";
-    # Replace with the hash of your downloaded .deb (see step 2 above).
-    sha256 = "0000000000000000000000000000000000000000000000000000";
+    sha256 = "1njlgyr9n007l7cqqjcvaywl3s0fij4q68qjpnj8j2q8v227bkq1";
     url = "https://www.cgl.ucsf.edu/chimerax/download.html";
     message = ''
       ChimeraX is registration-gated and cannot be downloaded automatically.
