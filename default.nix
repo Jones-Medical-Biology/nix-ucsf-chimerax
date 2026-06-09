@@ -67,7 +67,9 @@ stdenv.mkDerivation rec {
   buildInputs = [
     glibc
     #gcc-unwrapped
-    pkgs.linuxPackages.nvidia_x11
+    # nvidia_x11 dropped: it forces a fragile kernel-module build and is not
+    # needed to patchelf a prebuilt binary. The GPU driver's libGL/libcuda come
+    # from the host at runtime (via nixGL or /run/opengl-driver).
     pkgs.libffi
     pkgs.qt6.wrapQtAppsHook
     pkgs.glib
@@ -120,9 +122,8 @@ stdenv.mkDerivation rec {
     pkgs.opencl-headers
     pkgs.rocmPackages.clr
     pkgs.opencl-clhpp
-    pkgs.conda
-    pkgs.vial
-    pkgs.mysql80
+    # conda / vial / mysql80 dropped: unrelated to ChimeraX (a package manager,
+    # a keyboard tool, a database) and provide no libraries it links against.
     pkgs.cudaPackages.cudatoolkit
     pkgs.openssl_3
     python-with-my-packages

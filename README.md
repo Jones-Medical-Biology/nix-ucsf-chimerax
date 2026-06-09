@@ -28,8 +28,8 @@ nix build         # produces ./result
 ./result/bin/ChimeraX
 ```
 
-Unfree packages (nvidia-x11, the CUDA toolkit) are pulled in, so the flake
-sets `config.allowUnfree = true` for you.
+The CUDA toolkit is unfree, so the flake sets `config.allowUnfree = true` for
+you.
 
 ## Status
 
