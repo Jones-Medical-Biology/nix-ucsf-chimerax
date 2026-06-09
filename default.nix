@@ -1,32 +1,29 @@
 { pkgs, stdenv, dpkg, glibc, gcc-unwrapped, autoPatchelfHook }:
 let
 
-  # Please keep the version x.y.0.z and do not update to x.y.76.z because the
-  # source of the latter disappears much faster.
-  version = "rc";
+  version = "1.11.1";
+
+  debName = "ucsf-chimerax_1.11.1ubuntu24.04_amd64.deb";
 
   # ChimeraX is a registration-gated ~418 MB .deb, so it is neither fetchable
   # with a stable hash nor small enough to commit to git (GitHub rejects files
   # >100 MB). Instead we reference it by hash with requireFile: download the
-  # Ubuntu 22.04 build once, add it to your Nix store, and it never touches git.
+  # Ubuntu 24.04 build once, add it to your Nix store, and it never touches git.
   #
   #   1. Download from https://www.cgl.ucsf.edu/chimerax/download.html
-  #   2. Get its hash:   nix-prefetch-url file://$PWD/chimerax-rc.deb
-  #   3. Put that hash in the sha256 below
-  #   4. Add it to the store:   nix-store --add-fixed sha256 chimerax-rc.deb
+  #   2. Add it to the store:   nix-store --add-fixed sha256 ${debName}
   #
   # (requireFile prints these exact steps if the file is not yet in the store.)
   src = pkgs.requireFile {
-    name = "chimerax-rc.deb";
+    name = debName;
     sha256 = "1njlgyr9n007l7cqqjcvaywl3s0fij4q68qjpnj8j2q8v227bkq1";
     url = "https://www.cgl.ucsf.edu/chimerax/download.html";
     message = ''
       ChimeraX is registration-gated and cannot be downloaded automatically.
-      Download the Ubuntu 22.04 .deb from
+      Download the Ubuntu 24.04 .deb (${debName}) from
         https://www.cgl.ucsf.edu/chimerax/download.html
-      rename it to chimerax-rc.deb, then run:
-        nix-prefetch-url file://$PWD/chimerax-rc.deb   # put this hash in default.nix
-        nix-store --add-fixed sha256 chimerax-rc.deb
+      then add it to the Nix store:
+        nix-store --add-fixed sha256 ${debName}
     '';
   };
   libnsl = stdenv.mkDerivation rec {
