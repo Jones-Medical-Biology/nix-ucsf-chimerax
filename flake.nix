@@ -6,7 +6,12 @@
   inputs = { nixpkgs.url = "nixpkgs/d529e6962d22d13e28439c67adbf1ef7381f7143"; };
   outputs = { self, nixpkgs }:
     let
-      pkgs = import nixpkgs { system = "x86_64-linux"; };
+      # allowUnfree is required: ChimeraX pulls in nvidia-x11 and the CUDA
+      # toolkit, both of which nixpkgs refuses to evaluate otherwise.
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
       chimerax = pkgs.callPackage ./default.nix {};
     in {
       packages = {
